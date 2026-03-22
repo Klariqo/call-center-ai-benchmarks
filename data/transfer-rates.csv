@@ -1,0 +1,5 @@
+vertical,total_calls,transfers,transfer_rate_pct,avg_transfer_duration_sec,period
+ssdi_lead_qualification,1450,51,3.5,85,2026-02 to 2026-03
+final_expense_outbound,1100,39,3.5,95,2026-02 to 2026-03
+aca_health_insurance,3389,13,0.4,88,2026-02 to 2026-03
+all_verticals_combined,5939,103,1.7,90,2026-02 to 2026-03

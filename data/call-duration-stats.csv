@@ -1,0 +1,7 @@
+category,avg_duration_sec,median_duration_sec,count,period
+all_calls,22.5,12,5939,2026-02 to 2026-03
+abandoned_quick_hangup,22.8,8,2127,2026-02 to 2026-03
+qualified_transfer,90.4,85,103,2026-02 to 2026-03
+lead_captured,42.8,38,142,2026-02 to 2026-03
+info_provided,29.5,25,973,2026-02 to 2026-03
+voicemail_detected,0,0,244,2026-02 to 2026-03
