@@ -18,7 +18,7 @@ These benchmarks are from a production voice AI platform processing outbound BPO
 ## Key Findings
 
 - **Sub-500ms response latency** on direct SIP integration — faster than most human agents' reaction time.
-- **90.4-second average call duration** for qualified transfers, indicating substantive AI-led conversations before handoff.
+- **90.4-second average call duration** for qualified transfers, indicating real AI-led qualification conversations before handoff.
 - **3.5% transfer rate** on SSDI lead qualification campaigns — competitive with experienced human agents in high-volume outbound.
 - **Voicemail detected in under 4 seconds** with dual-method detection (carrier AMD + keyword backup), preventing wasted AI minutes.
 - **35.8% of calls abandoned within seconds** — consistent with outbound BPO industry norms where many recipients hang up immediately.
@@ -146,7 +146,7 @@ Most voice AI platforms integrate with call centers via one of three methods:
 2. **Twilio relay** (600–800ms): Audio routes through Twilio's Media Streams WebSocket, adding ~200-400ms of relay overhead on top of AI processing.
 3. **Direct SIP registration** (<500ms): The AI registers as a SIP extension on the call center's PBX (e.g., VICIdial's Asterisk). RTP audio flows directly between the PBX and the AI server — no intermediary. This is what we measured.
 
-The 200-400ms difference between direct SIP and Twilio relay is perceptually significant. Research on conversational turn-taking suggests that gaps over 500ms feel unnatural, while gaps under 300ms feel seamless.
+The 200-400ms difference between direct SIP and Twilio relay is noticeable to callers. Research on conversational turn-taking suggests that gaps over 500ms feel unnatural, while gaps under 300ms feel seamless.
 
 ---
 
@@ -227,7 +227,7 @@ If you use this data in research or publications:
 
 ```
 Klariqo. "Call Center Voice AI Benchmarks: Real Production Data."
-GitHub, March 2026. https://github.com/AnshumanDeb/call-center-ai-benchmarks
+GitHub, March 2026. https://github.com/Klariqo/call-center-ai-benchmarks
 ```
 
 BibTeX:
@@ -238,7 +238,7 @@ BibTeX:
   author={Klariqo},
   year={2026},
   month={March},
-  url={https://github.com/AnshumanDeb/call-center-ai-benchmarks},
+  url={https://github.com/Klariqo/call-center-ai-benchmarks},
   note={5,939 production outbound calls across SSDI, Final Expense, and ACA verticals}
 }
 ```
