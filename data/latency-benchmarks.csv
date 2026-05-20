@@ -1,7 +1,10 @@
 metric,value,unit,conditions,date
-response_latency_sip_direct,<500,ms,"Direct SIP registration on VICIdial Asterisk, GCP e2-standard-2 us-central1",2026-03
-response_latency_twilio_relay,600-800,ms,"Twilio SIP Domain + Media Streams, same AI stack",2026-03
-response_latency_api_integration,1000-2000,ms,"HTTP API call mid-Asterisk-dialplan (estimated from industry)",2026-03
-tts_time_to_first_byte,40,ms,"Cartesia Sonic Turbo, persistent WebSocket, mulaw 8kHz",2026-03
-stt_processing_latency,100-200,ms,"Deepgram Flux v2, streaming, turn detection",2026-03
-llm_inference_latency,50-100,ms,"Groq inference, Llama 3.1 8B, streaming",2026-03
+response_latency_sip_direct,<500,ms,"Direct SIP registration on VICIdial Asterisk, GCP e2-standard-2 us-central1",2026-05
+response_latency_twilio_relay,600-800,ms,"Twilio SIP Domain + Media Streams, same AI stack",2026-05
+response_latency_api_integration,1000-2000,ms,"HTTP API call mid-Asterisk-dialplan (estimated from industry)",2026-05
+tts_time_to_first_byte,40,ms,"Cartesia Sonic-3, persistent WebSocket, mulaw 8kHz",2026-05
+stt_processing_latency,100-200,ms,"Deepgram Flux v2, streaming, turn detection",2026-05
+llm_inference_latency_gemini,80-150,ms,"Google Gemini 2.5 Flash, streaming, tool calling enabled (primary path)",2026-05
+llm_inference_latency_groq,50-100,ms,"Groq inference, Llama 3.1 8B, streaming (alternative path, no tool calling)",2026-05
+barge_in_bridge_side_tenvad,~30,ms,"Bridge-side TEN VAD on raw µ-law RTP frames, Layer 2 barge-in",2026-05
+barge_in_worker_side_deepgram,200-300,ms,"Worker-side Deepgram VAD endpointing, Layer 1 fallback",2026-05

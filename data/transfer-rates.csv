@@ -1,5 +1,9 @@
 vertical,total_calls,transfers,transfer_rate_pct,avg_transfer_duration_sec,period
-ssdi_lead_qualification,1450,51,3.5,85,2026-02 to 2026-03
-final_expense_outbound,1100,39,3.5,95,2026-02 to 2026-03
-aca_health_insurance,3389,13,0.4,88,2026-02 to 2026-03
-all_verticals_combined,5939,103,1.7,90,2026-02 to 2026-03
+ssdi_lead_qualification,19203,775,4.04,70,2026-02 to 2026-05
+debt_relief_callbacks,3860,118,3.06,55,2026-05 (vertical launched 2026-05-05)
+aca_health_insurance,6287,41,0.65,75,2026-02 to 2026-05
+final_expense_callbacks,5791,66,1.14,60,2026-03 to 2026-04
+medicare_benefits,608,7,1.15,50,2026-05 (small sample)
+final_expense_inbound,24,6,25.00,167,2026-02 to 2026-05 (small inbound sample)
+health_insurance_general,71,1,1.41,52,2026-02 to 2026-03 (small sample)
+all_verticals_combined,35865,1018,2.84,69,2026-02 to 2026-05

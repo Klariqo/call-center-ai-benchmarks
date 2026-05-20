@@ -1,5 +1,6 @@
 metric,value,unit,conditions,period
-voicemail_detection_rate,4.1,percent,"AMD + keyword backup detection",2026-02 to 2026-03
-voicemail_detection_speed,<4,seconds,"Async AMD (Twilio) + keyword fallback",2026-02 to 2026-03
-voicemail_calls_detected,244,count,"Out of 5939 total calls",2026-02 to 2026-03
-voicemail_auto_hangup,true,boolean,"AI disconnects on voicemail detection",2026-02 to 2026-03
+voicemail_detection_rate,6.0,percent,"AMD + keyword backup detection",2026-02 to 2026-05
+voicemail_detection_speed_median,7.7,seconds,"Median time from call answer to disconnect",2026-02 to 2026-05
+voicemail_detection_speed_avg,11.5,seconds,"Average time from call answer to disconnect",2026-02 to 2026-05
+voicemail_calls_detected,2164,count,"Out of 35865 total calls",2026-02 to 2026-05
+voicemail_auto_hangup,true,boolean,"AI disconnects on voicemail detection",2026-02 to 2026-05
