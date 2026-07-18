@@ -1,6 +1,6 @@
 metric,value,unit,conditions,period
-voicemail_detection_rate,6.0,percent,"AMD + keyword backup detection",2026-02 to 2026-05
-voicemail_detection_speed_median,7.7,seconds,"Median time from call answer to disconnect",2026-02 to 2026-05
-voicemail_detection_speed_avg,11.5,seconds,"Average time from call answer to disconnect",2026-02 to 2026-05
-voicemail_calls_detected,2164,count,"Out of 35865 total calls",2026-02 to 2026-05
-voicemail_auto_hangup,true,boolean,"AI disconnects on voicemail detection",2026-02 to 2026-05
+voicemail_detection_rate,5.2,percent,"AMD + keyword backup detection",2026-02 to 2026-07
+voicemail_detection_speed_median,7.0,seconds,"Median time from call answer to disconnect",2026-02 to 2026-07
+voicemail_detection_speed_avg,11.4,seconds,"Average time from call answer to disconnect",2026-02 to 2026-07
+voicemail_calls_detected,2573,count,"Out of 49155 total calls",2026-02 to 2026-07
+voicemail_auto_hangup,true,boolean,"AI disconnects on voicemail detection",2026-02 to 2026-07

@@ -1,9 +1,11 @@
 vertical,total_calls,transfers,transfer_rate_pct,avg_transfer_duration_sec,period
-ssdi_lead_qualification,19203,775,4.04,70,2026-02 to 2026-05
-debt_relief_callbacks,3860,118,3.06,55,2026-05 (vertical launched 2026-05-05)
-aca_health_insurance,6287,41,0.65,75,2026-02 to 2026-05
-final_expense_callbacks,5791,66,1.14,60,2026-03 to 2026-04
-medicare_benefits,608,7,1.15,50,2026-05 (small sample)
-final_expense_inbound,24,6,25.00,167,2026-02 to 2026-05 (small inbound sample)
-health_insurance_general,71,1,1.41,52,2026-02 to 2026-03 (small sample)
-all_verticals_combined,35865,1018,2.84,69,2026-02 to 2026-05
+ssdi_lead_qualification,28734,1218,4.24,63,2026-02 to 2026-07
+debt_relief_callbacks,7124,198,2.78,34,2026-02 to 2026-07
+aca_health_insurance,6293,41,0.65,72,2026-02 to 2026-07 (little new volume since 2026-05)
+final_expense_callbacks,5791,66,1.14,53,2026-03 to 2026-04 (campaign ended, frozen)
+medicare_benefits,667,12,1.80,35,2026-02 to 2026-07 (small sample)
+home_services_inbound,140,2,1.43,70,2026-06 to 2026-07 (new inbound SMB, small sample)
+health_insurance_general,67,0,0.00,,2026-06 to 2026-07 (new inbound SMB, no transfers yet)
+ssdi_early_ramp_sample,315,0,0.00,,2026-05 (early-ramp sample, ended)
+final_expense_inbound,24,6,25.00,259,2026-02 to 2026-05 (small inbound sample, ended)
+all_verticals_combined,49155,1543,3.14,60,2026-02 to 2026-07

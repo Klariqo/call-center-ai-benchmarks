@@ -6,12 +6,12 @@ How each benchmark in this repository was measured.
 
 ## Data Collection
 
-All metrics are derived from production call sessions stored in PostgreSQL (Supabase). No synthetic data, no test calls, no simulated environments. Every number in this repository comes from real outbound BPO calls + inbound callbacks to real phone numbers during February 2026 – May 2026.
+All metrics are derived from production call sessions stored in PostgreSQL (Supabase). No synthetic data, no test calls, no simulated environments. Every number in this repository comes from real outbound BPO calls + inbound callbacks to real phone numbers during February 2026 – July 2026.
 
 Call metadata (duration, outcome, channel, timestamps, transfer flags) is written at call completion by a post-call processing worker. Latency measurements are captured server-side during active calls.
 
 **Exclusions from this dataset:**
-- Demo / test phone lines
+- Demo / test phone lines and internal sandbox deployments (excluded by client, not just by channel)
 - EU-region subclients on the reseller plane (separate pool, not statistically representative yet)
 - Internal QA calls
 - Calls with missing `ended_at` timestamp (i.e., never properly closed — typically zero)
@@ -109,9 +109,9 @@ Calls where the caller asked to speak to a human but did not meet qualification 
 1. **Carrier-level AMD (Answering Machine Detection):** Runs asynchronously at the telephony layer. Analyzes initial audio patterns (greeting length, cadence) to determine if a human or machine answered.
 2. **Keyword backup:** If AMD does not trigger, the AI listens for voicemail indicator phrases ("leave a message," "not available," "beep," etc.) and disconnects.
 
-**Detection speed:** Measured from call answer to disconnect decision. Median 7.7 seconds, average 11.5 seconds. The gap between median and average reflects the long tail of edge cases (long voicemail greetings that AMD missed and keyword backup catches later).
+**Detection speed:** Measured from call answer to disconnect decision. Median 7.0 seconds, average 11.4 seconds. The gap between median and average reflects the long tail of edge cases (long voicemail greetings that AMD missed and keyword backup catches later).
 
-**Note on BYOD/SIP calls:** For calls arriving via VICIdial's dialer, the dialer often performs its own AMD before connecting to our AI. The 6.0% voicemail rate in our data represents voicemails that passed through the dialer's detection — it is not the raw voicemail rate of the underlying phone lists.
+**Note on BYOD/SIP calls:** For calls arriving via VICIdial's dialer, the dialer often performs its own AMD before connecting to our AI. The 5.2% voicemail rate in our data represents voicemails that passed through the dialer's detection — it is not the raw voicemail rate of the underlying phone lists.
 
 ---
 
@@ -138,11 +138,11 @@ Vertical names (SSDI, Debt Relief, ACA, Final Expense, Medicare, Health Insuranc
 
 3. **Transfer rates depend heavily on list quality.** The same AI agent on a high-quality lead list will show higher transfer rates than on a cold list. Our benchmarks reflect the lists used by our clients during this period — your results will vary.
 
-4. **Varying sample sizes across verticals.** SSDI (19,200 calls) and Final Expense Callbacks (5,791) + ACA (6,287) provide strong statistical confidence. Medicare (608) and inbound Final Expense (24) are small samples — interpret with caution.
+4. **Varying sample sizes across verticals.** SSDI (28,734 calls), Debt Relief (7,124), ACA (6,293), and Final Expense Callbacks (5,791) provide strong statistical confidence. Medicare (667), inbound Final Expense (24), and the new inbound-SMB samples (Home Services 140, General Health Insurance 67) are small samples — interpret with caution.
 
-5. **Newer verticals reflect ramp-up dynamics.** Some sub-samples (e.g. a 315-call SSDI sample over 4 days and a 608-call Medicare sample over 1 day) reflect very recent campaign starts where list quality, prompt tuning, and operational state had not yet stabilized. Their transfer rates should be interpreted as early-ramp data, not steady-state.
+5. **Newer and early-ramp deployments.** Some sub-samples (e.g. a 315-call SSDI early-ramp deployment, and the new inbound-SMB deployments) reflect very recent or short-lived campaigns where list quality, prompt tuning, and operational state had not yet stabilized. Their transfer rates should be interpreted as early-ramp data, not steady-state. Some verticals measured in the May release (ACA, Final Expense) saw little to no new volume this period, so their numbers are effectively carried forward.
 
-6. **3.5-month window.** Call center performance varies by day of week, time of day, season, and regulatory environment. A longer measurement period would provide more stable benchmarks. We extended from the original 2-month window for this release.
+6. **5.5-month window.** Call center performance varies by day of week, time of day, season, and regulatory environment. A longer measurement period would provide more stable benchmarks. We extended from the 3.5-month window of the prior release.
 
 7. **Single geographic region for the dataset.** The benchmarked calls run through the US bridge (us-central1). EU calls are excluded from this dataset because that traffic is not yet at production scale.
 
@@ -172,6 +172,7 @@ This repository will be updated as more data is collected. Each update will note
 
 **Release history:**
 - **2026-03**: Initial release — 5,939 calls across 3 verticals (SSDI, Final Expense, ACA), Llama 3.1 8B on Groq + Cartesia Sonic Turbo
-- **2026-05** (this release): 35,865 calls across 6 verticals, added Gemini 2.5 Flash with tool calling, Cartesia Sonic-3, bridge-side TEN VAD Layer 2 barge-in
+- **2026-05**: 35,865 calls across 6 verticals, added Gemini 2.5 Flash with tool calling, Cartesia Sonic-3, bridge-side TEN VAD Layer 2 barge-in
+- **2026-07** (this release): 49,155 calls, window extended to ~5.5 months, added early inbound-SMB samples, broke out new outcome categories. AI stack unchanged since May, so latency and cost figures carry forward.
 
-Last updated: May 2026
+Last updated: July 2026

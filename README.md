@@ -1,6 +1,6 @@
 # Call Center Voice AI Benchmarks: Real Production Data
 
-> Open benchmarks from **35,800+** production calls processed by AI agents across SSDI, Debt Relief, ACA, Final Expense, Medicare, and Health Insurance verticals.
+> Open benchmarks from **49,000+** production calls processed by AI agents across SSDI, Debt Relief, ACA, Final Expense, Medicare, and Health Insurance verticals.
 
 ---
 
@@ -8,50 +8,58 @@
 
 These benchmarks are from a production voice AI platform processing outbound BPO calls + inbound callbacks. All data is anonymized — no client names, phone numbers, or PII. Published by [Klariqo](https://klariqo.com), a voice AI platform for call centers.
 
-**Period:** February 2026 – May 2026 (~3.5 months, 68 active call days)
-**Total calls:** 35,865
-**Distinct production client deployments:** 11
+**Period:** February 2026 – July 2026 (~5.5 months, 109 active call days)
+**Total calls:** 49,155
+**Distinct production client deployments:** 10
 **Channels:** Direct SIP (BYOD) on VICIdial Asterisk, Twilio outbound, inbound PSTN
 **Verticals:** SSDI lead qualification, Debt Relief callbacks, ACA health insurance, Final Expense (outbound + inbound), Medicare benefits, general health insurance
-**Update from prior version:** 6.0× the call volume of our March 2026 release (5,939 → 35,865), adds Debt Relief + Medicare verticals, refreshes AI stack to current production configuration.
+**Update from prior version:** 1.4× the call volume of our May 2026 release (35,865 → 49,155), extends the window two more months, and adds early inbound-SMB samples. AI stack unchanged since May, so latency and cost figures carry forward.
 
 ---
 
 ## Key Findings
 
-- **4.04% transfer rate on SSDI lead qualification** across 19,200 calls — within the upper range of experienced human agents on comparable outbound campaigns.
-- **3.06% transfer rate on Debt Relief callbacks** across 3,860 calls — new vertical added since the March release.
-- **Sub-500ms response latency** on direct SIP integration (Deepgram Flux v2 STT → Gemini 2.5 Flash LLM with tool calling → Cartesia Sonic-3 TTS).
-- **69-second average duration on transferred calls** — the AI conducts over a minute of qualification dialogue before handoff. Median transferred-call duration: 54 seconds.
-- **6.0% voicemail detection rate** with dual-method detection (carrier AMD + keyword backup), median 7.7-second detection time.
+- **4.24% transfer rate on SSDI lead qualification** across 28,734 calls — within the upper range of experienced human agents on comparable outbound campaigns, and up from 4.04% on a smaller sample in the May release.
+- **2.78% transfer rate on Debt Relief callbacks** across 7,124 calls — the vertical nearly doubled in volume since May; the rate settled slightly as the sample grew.
+- **Sub-500ms response latency** on direct SIP integration (Deepgram Flux v2 STT → Gemini 2.5 Flash LLM with tool calling → Cartesia Sonic-3 TTS). Measured in the May release; the AI stack is unchanged.
+- **59.8-second average duration on transferred calls** — the AI conducts nearly a minute of qualification dialogue before handoff. Median transferred-call duration: 48 seconds.
+- **5.2% voicemail detection rate** with dual-method detection (carrier AMD + keyword backup), median 7.0-second detection time.
 - **Direct SIP integration on VICIdial Asterisk** eliminates the Twilio relay layer, cutting 200-400ms of latency and $0.0105/min in per-call costs vs Twilio PSTN.
-- **Bridge-side TEN VAD barge-in** (Layer 2, deployed April 2026) fires at ~30ms voiced speech — orders of magnitude faster than worker-side endpointing.
+- **Bridge-side TEN VAD barge-in** (Layer 2) fires at ~30ms voiced speech — orders of magnitude faster than worker-side endpointing.
 - **50+ concurrent calls** handled per single GCP e2-standard-2 VM (~$67/month infrastructure).
-- **35,000+ calls on direct SIP (BYOD)** vs ~700 via Twilio outbound — direct SIP is the dominant production path.
+- **48,000+ calls on direct SIP (BYOD)** vs ~700 via Twilio outbound — direct SIP is the dominant production path (98.2%).
 
 ---
 
 ## 1. Call Volume and Outcome Distribution
 
-35,865 calls processed across six verticals over a ~3.5-month production window.
+49,155 calls processed across the production window (February–July 2026).
 
 | Outcome | Count | Percentage | Avg Duration | Median Duration |
 |---------|------:|-----------:|-------------:|----------------:|
-| Disconnected | 22,932 | 63.9% | 18.5s | 16.3s |
-| Abandoned / Quick Hangup | 3,709 | 10.3% | 22.1s | 16.3s |
-| Other | 3,202 | 8.9% | 17.6s | 16.1s |
-| Voicemail Detected | 2,164 | 6.0% | 11.5s | 7.7s |
-| Info Provided | 1,301 | 3.6% | 31.5s | 20.1s |
-| Transferred to Human | 1,018 | 2.8% | 69.0s | 54.2s |
-| Untagged | 996 | 2.8% | 18.6s | 16.1s |
-| Lead Captured | 273 | 0.8% | 40.3s | 34.3s |
-| Complaint Logged | 134 | 0.4% | 25.4s | 22.5s |
-| No Answer | 67 | 0.2% | 0s | 0s |
+| Disconnected | 32,846 | 66.8% | 17.7s | 16.0s |
+| Abandoned / Quick Hangup | 3,713 | 7.6% | 22.1s | 16.0s |
+| Other | 3,241 | 6.6% | 17.8s | 16.0s |
+| Voicemail Detected | 2,573 | 5.2% | 11.4s | 7.0s |
+| Transferred to Human | 1,543 | 3.1% | 59.8s | 48.0s |
+| No Answer | 1,499 | 3.0% | 2.2s | 2.0s |
+| Info Provided | 1,299 | 2.6% | 31.4s | 20.0s |
+| Untagged | 1,045 | 2.1% | 19.3s | 16.0s |
+| Not Interested | 293 | 0.6% | 26.0s | 24.0s |
+| Not Qualified | 292 | 0.6% | 35.9s | 34.0s |
+| Lead Captured | 289 | 0.6% | 39.4s | 33.0s |
+| Completed | 143 | 0.3% | 28.6s | 27.0s |
+| Complaint Logged | 135 | 0.3% | 25.5s | 23.0s |
+| DNC Requested | 129 | 0.3% | 19.9s | 13.0s |
 | Busy | 34 | 0.1% | 0s | 0s |
-| Failed | 18 | 0.05% | 0s | 0s |
-| Appointment Booked | 2 | trace | 21.2s | 21.2s |
+| Callback Requested | 29 | 0.1% | 33.4s | 27.0s |
+| Failed | 18 | 0.04% | 0s | 0s |
+| Appointment Booked | 17 | 0.03% | 76.8s | 74.0s |
+| Qualified | 17 | 0.03% | 40.9s | 39.0s |
 
-**Context:** The 63.9% disconnected rate is typical of outbound BPO campaigns where recipients hang up early. The meaningful metric is what happens with the engaged ~30% of callers — of those, the AI extracted leads, provided information, or qualified-and-transferred according to each campaign's criteria.
+**New outcome categories this release:** Not Interested, Not Qualified, DNC Requested, Callback Requested, and Completed are broken out for the first time. In the May release these were folded into Other, so the Other bucket is smaller here even though nothing about production behavior changed.
+
+**Context:** The 66.8% disconnected rate is typical of outbound BPO campaigns where recipients hang up early. The meaningful metric is what happens with the engaged callers — of those, the AI extracted leads, provided information, or qualified-and-transferred according to each campaign's criteria.
 
 ---
 
@@ -61,31 +69,33 @@ Transfer rate is the primary success metric for outbound BPO AI — it measures 
 
 | Vertical | Total Calls | Transfers | Transfer Rate | Avg Transfer Duration |
 |----------|------------:|----------:|--------------:|----------------------:|
-| **SSDI Lead Qualification** | 19,203 | 775 | **4.04%** | ~70s |
-| **Debt Relief (callbacks)** | 3,860 | 118 | **3.06%** | ~55s |
-| **ACA Health Insurance** | 6,287 | 41 | 0.65% | ~75s |
-| **Final Expense (callback follow-up)** | 5,791 | 66 | 1.14% | ~60s |
-| **Medicare Benefits** | 608 | 7 | 1.15% | ~50s |
-| **Final Expense (inbound, small sample)** | 24 | 6 | 25.00% | ~167s |
-| **General Health Insurance (small sample)** | 71 | 1 | 1.41% | ~52s |
-| **All verticals combined** | **35,865** | **1,018** | **2.84%** | **69.0s** |
+| **SSDI Lead Qualification** | 28,734 | 1,218 | **4.24%** | ~63s |
+| **Debt Relief (callbacks)** | 7,124 | 198 | **2.78%** | ~34s |
+| **ACA Health Insurance** | 6,293 | 41 | 0.65% | ~72s |
+| **Final Expense (callback follow-up)** | 5,791 | 66 | 1.14% | ~53s |
+| **Medicare Benefits** | 667 | 12 | 1.80% | ~35s |
+| **Home Services (inbound, new sample)** | 140 | 2 | 1.43% | ~70s |
+| **General Health Insurance (inbound, new sample)** | 67 | 0 | 0.00% | — |
+| **SSDI Lead Qualification (early-ramp sample)** | 315 | 0 | 0.00% | — |
+| **Final Expense (inbound, small sample)** | 24 | 6 | 25.00% | ~259s |
+| **All verticals combined** | **49,155** | **1,543** | **3.14%** | **59.8s** |
 
 **Context on transfer rates:**
 
-- **SSDI shows the strongest performance** at 4.04% — the qualification criteria (age, disability status, employment history) are clear enough for AI to screen efficiently. Compares favorably with experienced human agents (typical 2-5% on cold outbound SSDI lists).
-- **Debt Relief at 3.06%** — added as a vertical post-March 2026 release. Strong transfer rate for a callback-driven campaign where leads previously filled out a web form.
-- **ACA at 0.65%** — lower transfer rate reflects stricter qualification windows (enrollment periods, income thresholds) AND ACA campaign list dynamics, not AI capability. Consistent with our March release's 0.4% ACA finding.
-- **Inbound channels convert dramatically higher** — the 25% transfer rate on the inbound Final Expense sample reflects intent: callers who dialed in chose to engage. Sample size is small but the pattern matches our wider observations.
-- **Industry comparison:** Experienced human agents on outbound BPO campaigns typically achieve 2-5% transfer rates depending on list quality, vertical, and time of day. AI's 4.04% on SSDI and 3.06% on Debt Relief sit squarely in this range.
+- **SSDI shows the strongest performance** at 4.24% — the qualification criteria (age, disability status, employment history) are clear enough for AI to screen efficiently, and it held up as the sample grew to 28,734 calls. Compares favorably with experienced human agents (typical 2-5% on cold outbound SSDI lists).
+- **Debt Relief at 2.78%** — volume nearly doubled since May; the rate eased slightly as more calls came in, which is the normal direction when a small early sample regresses toward its stable value.
+- **ACA at 0.65% and Final Expense at 1.14% are essentially unchanged** because those campaigns wound down after May — the numbers reflect little to no new volume this period rather than a new measurement.
+- **Inbound channels convert dramatically higher when the caller has intent** — the 25% transfer rate on the older inbound Final Expense sample reflects callers who dialed in to engage. The two new inbound-SMB samples (Home Services, General Health Insurance) are early and low-volume; do not read a stable rate into them yet.
+- **Industry comparison:** Experienced human agents on outbound BPO campaigns typically achieve 2-5% transfer rates depending on list quality, vertical, and time of day. AI's 4.24% on SSDI sits squarely in this range.
 
 ### Tracked-baseline subset
 
 Two production deployments within this dataset are running long enough to provide stable transfer-rate baselines:
 
-- **A long-running SSDI deployment**: 4.10% transfer rate across 18,888 calls (Feb–May 2026)
-- **A long-running Debt Relief deployment**: 3.06% transfer rate across 3,860 calls (May 2026)
+- **A long-running SSDI deployment**: 4.24% transfer rate across 28,734 calls (Feb–Jul 2026)
+- **A long-running Debt Relief deployment**: 2.78% transfer rate across 7,124 calls (May–Jul 2026)
 
-These two deployments alone represent 22,748 / 35,865 = **63.4% of total dataset volume**, so they are the strongest signal for "what stable production looks like."
+These two deployments alone represent 35,858 / 49,155 = **72.9% of total dataset volume**, so they are the strongest signal for "what stable production looks like."
 
 ---
 
@@ -95,20 +105,20 @@ Average call duration varies significantly by outcome, reflecting the depth of c
 
 | Category | Avg Duration | Median Duration | Count |
 |----------|-------------:|----------------:|------:|
-| All calls | 19.7s | 16.3s | 35,865 |
-| Transferred | 69.0s | 54.2s | 1,018 |
-| Lead Captured | 40.3s | 34.3s | 273 |
-| Info Provided | 31.5s | 20.1s | 1,301 |
-| Complaint Logged | 25.4s | 22.5s | 134 |
-| Abandoned / Quick Hangup | 22.1s | 16.3s | 3,709 |
-| Disconnected | 18.5s | 16.3s | 22,932 |
-| Voicemail Detected | 11.5s | 7.7s | 2,164 |
+| All calls | 19.3s | 16.0s | 49,155 |
+| Transferred | 59.8s | 48.0s | 1,543 |
+| Lead Captured | 39.4s | 33.0s | 289 |
+| Info Provided | 31.4s | 20.0s | 1,299 |
+| Complaint Logged | 25.5s | 23.0s | 135 |
+| Abandoned / Quick Hangup | 22.1s | 16.0s | 3,713 |
+| Disconnected | 17.7s | 16.0s | 32,846 |
+| Voicemail Detected | 11.4s | 7.0s | 2,573 |
 
 **Key observations:**
 
-- Transferred calls average 69 seconds, meaning the AI conducts substantive qualification — not just a routing exercise. Median is 54s, indicating a tight distribution around real conversation depth.
-- Lead-captured calls (no transfer) average 40.3s — shorter than transfers because the AI extracts contact info + qualification answers but does not need to confirm transfer criteria.
-- Voicemail detection averages 11.5s but median is 7.7s — most voicemails are caught in under 8 seconds; the 11.5s average is pulled up by edge cases where the dialer-side AMD misses and our worker-side keyword detection runs longer.
+- Transferred calls average 59.8 seconds, meaning the AI conducts substantive qualification — not just a routing exercise. Median is 48s, indicating a tight distribution around real conversation depth.
+- Lead-captured calls (no transfer) average 39.4s — shorter than transfers because the AI extracts contact info + qualification answers but does not need to confirm transfer criteria.
+- Voicemail detection averages 11.4s but median is 7.0s — most voicemails are caught in under 8 seconds; the 11.4s average is pulled up by edge cases where the dialer-side AMD misses and our worker-side keyword detection runs longer.
 
 ---
 
@@ -116,17 +126,19 @@ Average call duration varies significantly by outcome, reflecting the depth of c
 
 | Channel | Calls | Transfers | Transfer Rate | Avg Duration | Description |
 |---------|------:|----------:|--------------:|-------------:|-------------|
-| **Direct SIP (BYOD)** | 35,009 | 989 | 2.82% | 20.2s | VICIdial dialer transfers call to AI via SIP registration |
+| **Direct SIP (BYOD)** | 48,288 | 1,527 | 3.16% | 19.2s | VICIdial dialer transfers call to AI via SIP registration |
 | **Outbound (Twilio)** | 724 | 10 | 1.38% | 18.1s | AI-initiated outbound via Twilio Media Streams |
-| **Inbound (PSTN)** | 110 | 9 | **8.18%** | **75.1s** | Direct inbound calls — caller dialed our number |
+| **Inbound (PSTN)** | 142 | 6 | **4.23%** | **68.1s** | Direct inbound calls — caller dialed our number |
 
-**Direct SIP dominates production traffic** (97.6% of calls). The Twilio outbound channel is used for clients without their own VICIdial. Inbound calls — though only 110 in the dataset — show **2.9× the transfer rate** of outbound. This reflects intent: inbound callers chose to engage, while outbound callers were dialed.
+**Direct SIP dominates production traffic** (98.2% of calls). The Twilio outbound channel is used for clients without their own VICIdial and saw no new volume this period. Inbound calls — though only 142 in the dataset — run far longer on average (68.1s vs ~19s), reflecting engaged callers who chose to dial in. The inbound transfer rate is lower than the May release because two new inbound-SMB deployments joined the sample with few transfers so far. (One additional call ran on a legacy callback channel and is omitted from this table; it is included in the 49,155 total.)
 
 ---
 
 ## 5. Latency Benchmarks
 
 Response latency — the time from when the caller stops speaking to when they hear the AI's first audio response — is the most critical metric for natural-sounding voice AI.
+
+> These latency figures were measured in the May 2026 release. The AI stack (STT, LLM, TTS, bridge) is unchanged since then, so they carry forward and were not re-measured for this release.
 
 | Metric | Value | Conditions |
 |--------|------:|------------|
@@ -172,15 +184,15 @@ Voicemail detection prevents wasted AI processing time on calls that reach an an
 
 | Metric | Value |
 |--------|------:|
-| Voicemail detection rate | 6.0% of all calls |
-| Detection speed (median) | 7.7 seconds |
-| Detection speed (average) | 11.5 seconds |
-| Calls detected | 2,164 out of 35,865 |
+| Voicemail detection rate | 5.2% of all calls |
+| Detection speed (median) | 7.0 seconds |
+| Detection speed (average) | 11.4 seconds |
+| Calls detected | 2,573 out of 49,155 |
 | Action on detection | Automatic disconnect |
 
 **Method:** Dual-layer detection combining carrier-level Answering Machine Detection (AMD) and keyword-based backup. AMD runs asynchronously at the telephony layer and typically detects within 2-3 seconds. The keyword backup catches cases AMD misses by listening for phrases like "leave a message," "not available," or "press one."
 
-**Why the 6.0% rate is lower than industry-typical 20-40%:** Most calls are BYOD/SIP — the dialer (VICIdial) handles AMD at its level before connecting the call to our AI. The 6.0% represents voicemails that slipped past the dialer's own detection. On the outbound channels (Twilio), our voicemail detection rate is higher because we own the full detection stack.
+**Why the 5.2% rate is lower than industry-typical 20-40%:** Most calls are BYOD/SIP — the dialer (VICIdial) handles AMD at its level before connecting the call to our AI. The 5.2% represents voicemails that slipped past the dialer's own detection. On the outbound channels (Twilio), our voicemail detection rate is higher because we own the full detection stack.
 
 ---
 
@@ -197,7 +209,7 @@ Voicemail detection prevents wasted AI processing time on calls that reach an an
 | Bridge runtime | Go 1.25, single binary, systemd-managed |
 | Worker runtime | TypeScript on Cloudflare Workers (edge compute) |
 
-At 50 concurrent calls and an average duration of 19.7 seconds, a single VM can theoretically process ~9,000 calls per hour. Actual throughput depends on concurrency patterns + the ratio of long to short calls.
+At 50 concurrent calls and an average duration of 19.3 seconds, a single VM can theoretically process ~9,000 calls per hour. Actual throughput depends on concurrency patterns + the ratio of long to short calls.
 
 ---
 
@@ -221,21 +233,25 @@ Telephony costs vary by integration method:
 | Twilio SIP inbound | $0.008 | SIP termination ($0.004) + Media Streams ($0.004) |
 | Twilio PSTN inbound | $0.0125 | PSTN termination ($0.0085) + Media Streams ($0.004) |
 
+> These are provider list prices, plan- and volume-dependent, last verified May 2026. Check each provider's current pricing page for exact figures.
+
 ---
 
-## 9. What Changed From the March 2026 Release
+## 9. What Changed From the May 2026 Release
 
-| Dimension | March 2026 | This release (May 2026) |
+| Dimension | May 2026 | This release (July 2026) |
 |---|---|---|
-| Total calls | 5,939 | 35,865 (**6.0×**) |
-| Period | Feb–Mar 2026 (~2 months) | Feb–May 2026 (~3.5 months) |
-| Verticals covered | 3 (SSDI, FE, ACA) | 6 (added Debt Relief, Medicare, general Health Insurance) |
-| LLM | Llama 3.1 8B on Groq (only) | Gemini 2.5 Flash primary (tool calling); Groq Llama 3.1 8B as alternative |
-| TTS | Cartesia Sonic Turbo | Cartesia Sonic-3 |
-| Barge-in | Worker-side Deepgram VAD (~200-300ms) | + Bridge-side TEN VAD (Layer 2, ~30ms) |
-| Direct SIP usage | 5,046 / 5,939 (85.0%) | 35,009 / 35,865 (97.6%) — proved out as dominant path |
-| SSDI transfer rate | 3.5% (51/1,450) | 4.04% (775/19,203) — 13.2× larger sample |
-| Debt Relief vertical | Not measured | 3.06% (118/3,860) — new vertical |
+| Total calls | 35,865 | 49,155 (**1.4×**) |
+| Period | Feb–May 2026 (~3.5 months) | Feb–Jul 2026 (~5.5 months) |
+| Active call days | 68 | 109 |
+| SSDI transfer rate | 4.04% (775/19,203) | 4.24% (1,218/28,734) — larger sample |
+| Debt Relief transfer rate | 3.06% (118/3,860) | 2.78% (198/7,124) — ~1.8× volume |
+| Combined transfer rate | 2.84% (1,018/35,865) | 3.14% (1,543/49,155) |
+| Direct SIP usage | 35,009 / 35,865 (97.6%) | 48,288 / 49,155 (98.2%) |
+| AI stack | Deepgram Flux v2 + Gemini 2.5 Flash + Cartesia Sonic-3 | Unchanged |
+| New in sample | — | Early inbound-SMB deployments (Home Services, General Health Insurance) |
+
+Outcome categories Not Interested, Not Qualified, DNC Requested, Callback Requested, and Completed are broken out for the first time this release (previously folded into Other).
 
 ---
 
@@ -247,7 +263,7 @@ Raw benchmark data is available in CSV format:
 |------|-------------|
 | [`data/call-duration-stats.csv`](data/call-duration-stats.csv) | Duration statistics by call outcome |
 | [`data/transfer-rates.csv`](data/transfer-rates.csv) | Transfer rates by vertical |
-| [`data/latency-benchmarks.csv`](data/latency-benchmarks.csv) | Response latency measurements |
+| [`data/latency-benchmarks.csv`](data/latency-benchmarks.csv) | Response latency measurements (May 2026, stack unchanged) |
 | [`data/voicemail-detection.csv`](data/voicemail-detection.csv) | Voicemail detection metrics |
 
 ---
@@ -264,19 +280,19 @@ If you use this data in research or publications:
 
 ```
 Klariqo. "Call Center Voice AI Benchmarks: Real Production Data."
-GitHub, May 2026. https://github.com/Klariqo/call-center-ai-benchmarks
+GitHub, July 2026. https://github.com/Klariqo/call-center-ai-benchmarks
 ```
 
 BibTeX:
 
 ```bibtex
 @misc{klariqo2026benchmarks,
-  title={Call Center Voice AI Benchmarks: Real Production Data (May 2026 release)},
+  title={Call Center Voice AI Benchmarks: Real Production Data (July 2026 release)},
   author={Klariqo},
   year={2026},
-  month={May},
+  month={July},
   url={https://github.com/Klariqo/call-center-ai-benchmarks},
-  note={35,865 production calls across SSDI, Debt Relief, ACA, Final Expense, Medicare, and Health Insurance verticals}
+  note={49,155 production calls across SSDI, Debt Relief, ACA, Final Expense, Medicare, and Health Insurance verticals}
 }
 ```
 
